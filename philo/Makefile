@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= main.c errors.c ft_atoi.c utils.c
+SRCS	= main.c errors.c ft_atoi.c utils.c ft_putnbr_fd.c
 
 NAME	= philo
 
@@ -19,7 +19,7 @@ RM	= @rm -f
 all:	$(NAME)
 
 $(NAME):	${SRCS}
-			@gcc -Wall -Wextra -Werror ${SRCS} -o ${NAME}
+			@gcc -Wall -Wextra -Werror -lpthread -D_REENTRANT ${SRCS} -o ${NAME}
 			
 
 clean:

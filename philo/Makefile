@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/26 17:08:49 by jeulliot          #+#    #+#              #
-#    Updated: 2022/04/26 17:08:51 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/24 17:08:58 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= main.c errors.c ft_atoi.c utils.c ft_putnbr_fd.c
+SRCS	= src/main.c src/errors.c src/ft_atoi.c src/utils.c src/time.c src/events.c src/init.c
 
 NAME	= philo
 
@@ -18,8 +18,8 @@ RM	= @rm -f
 
 all:	$(NAME)
 
-$(NAME):	${SRCS}
-			@gcc -Wall -Wextra -Werror -lpthread -D_REENTRANT ${SRCS} -o ${NAME}
+$(NAME):	${SRCS}			
+			@gcc -Wall -Wextra -Werror -lpthread -D_REENTRANT -fsanitize=thread -g ${SRCS} -o ${NAME}
 			
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:42:19 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/25 14:44:28 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/25 22:25:14 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ typedef struct s_one_philo	t_one_philo;
 
 typedef struct s_parameters {
 	int	nb;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
+	int	tt_die;
+	int	tt_eat;
+	int	tt_sleep;
 	int	number_of_meals;
 }	t_parameters;
 

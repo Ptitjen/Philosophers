@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:39:36 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/25 16:41:19 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/25 22:08:05 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	ft_is_empty(char *str)
 {
 	if (str[0] == '\0')
 	{
-		ft_putstr_fd("\n    \U0001F6AB At least one argument is empty \U0001F6AB\n\n", 2);
+		ft_putstr_fd("\n    \U0001F6AB At least one argument is empty", 2);
+		ft_putstr_fd(" \U0001F6AB\n\n", 2);
 		ft_show_required_parameters();
 		exit (1);
 	}
@@ -59,7 +60,8 @@ static int	ft_is_number(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 		{
-			ft_putstr_fd("\n    \U0001F6AB  At least one parameter is not a number \U0001F6AB\n\n", 2);
+			ft_putstr_fd("\n    \U0001F6AB  At least one parameter is ", 2);
+			ft_putstr_fd("not a number \U0001F6AB\n\n", 2);
 			ft_show_required_parameters();
 			exit (1);
 		}
@@ -67,7 +69,8 @@ static int	ft_is_number(char *str)
 	}
 	if (i >= 9)
 	{
-		ft_putstr_fd("\n    \U0001F6AB  Don't you think one of the numbers is a little bit too big? \U0001F6AB   \n\n", 2);
+		ft_putstr_fd("\n    \U0001F6AB  Don't you think one of the numbers", 2);
+		ft_putstr_fd("is a little bit too big? \U0001F6AB   \n\n", 2);
 		ft_show_required_parameters();
 		exit (1);
 	}
@@ -82,7 +85,8 @@ void	ft_arg_error(int argc, char **argv)
 	if (!(argc == 5 || argc == 6))
 	{
 		ft_putstr_fd("\n", 2);
-		ft_putstr_fd("    \U0001F6AB   Wrong number of arguments   \U0001F6AB   \n\n", 2);
+		ft_putstr_fd("    \U0001F6AB   Wrong number of arguments", 2);
+		ft_putstr_fd("   \U0001F6AB   \n\n", 2);
 		ft_show_required_parameters();
 	}
 	while (i < argc)
@@ -92,7 +96,8 @@ void	ft_arg_error(int argc, char **argv)
 			ft_is_empty(argv[i]);
 		if (i != 5 && i != 4 && argv[i][0] == '0' && argv[i][1] == 0)
 		{
-			ft_putstr_fd("\n    \U0001F6AB  Some parameters cannot be 0 \U0001F6AB\n\n", 2);
+			ft_putstr_fd("\n    \U0001F6AB  Some parameters cannot be 0", 2);
+			ft_putstr_fd(" \U0001F6AB\n\n", 2);
 			ft_show_required_parameters();
 			exit (1);
 		}

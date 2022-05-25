@@ -3,26 +3,46 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
+#    By: jenny <jenny@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/26 17:08:49 by jeulliot          #+#    #+#              #
-#    Updated: 2022/05/24 17:08:58 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/25 15:51:44 by jenny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= src/main.c src/errors.c src/ft_atoi.c src/utils.c src/time.c src/events.c src/init.c
-
 NAME	= philo
+
+INCLUDES = includes/philosophers.h
+
+SRCS	= src/main.c \
+			src/philosophers.c \
+			src/init.c \
+			src/events.c \
+			src/errors.c \
+			src/ft_atoi.c \
+			src/time.c \
+			src/close.c
+
+OBJS	= ${SRCS:.c=.o}	
+
+CFLAGS	= -Wall -Wextra -Werror
+
+THREADFLAGS = -pthread -D_REENTRANT 
+
+SANFLAGS = -fsanitize=thread -g
 
 RM	= @rm -f
 
-all:	$(NAME)
+$(NAME):	${OBJS}			
+			@gcc ${CFLAGS} ${THREADFLAGS} ${SRCS} -o ${NAME}
 
-$(NAME):	${SRCS}			
-			@gcc -Wall -Wextra -Werror -lpthread -D_REENTRANT -fsanitize=thread -g ${SRCS} -o ${NAME}
-			
+all:	$(NAME) ${OBJS} ${INCLUDES}
+
+%.o: %.c ${INCLUDES}
+		@gcc ${CFLAGS} -c $< -o $@
 
 clean:
+	${RM} ${OBJS}
 
 fclean:	clean
 	${RM} ${NAME}

@@ -3,41 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:07:17 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/24 16:25:58 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/25 16:23:53 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-#include <stdlib.h>
+#include "../includes/philosophers.h"
 
 t_data	*ft_init_data(int argc, char **argv)
 {
-	t_data 				*data;
-	struct timeval 		start_time;
+	int				i;
+	t_data			*data;
+	struct timeval	start_time;
 
+	i = -1;
 	data = malloc(sizeof(t_data));
-	if (argc == 6)
-		data->param.nom = ft_atoi (argv[5]);
-	else 
-		data->param.nom = -1; //pas de limite de nb de repas
+	if (argc == 6 && argv[5][0])
+		data->param.number_of_meals = ft_atoi (argv[5]);
+	else
+		data->param.number_of_meals = -1;
 	data->param.nb = ft_atoi (argv[1]);
-	data->param.ttd = ft_atoi (argv[2]);
-	data->param.tte = ft_atoi (argv[3]);
-	data->param.tts = ft_atoi (argv[4]);
+	data->param.time_to_die = ft_atoi (argv[2]);
+	data->param.time_to_eat = ft_atoi (argv[3]);
+	data->param.time_to_sleep = ft_atoi (argv[4]);
+	data->one_is_dead = 0;
+	data->write_protector = malloc(sizeof(pthread_mutex_t)); //unused for now
+	pthread_mutex_init(data->write_protector, NULL);
 	data->philo = malloc(sizeof(t_one_philo) * (data->param.nb));
-
-	int	i = -1;
 	while (++i < data->param.nb)
 	{
 		data->philo[i].left_fork = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(data->philo[i].left_fork, NULL);		
-		data->philo[i].right_fork = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(data->philo[i].left_fork, NULL);
 		data->philo[i].write_protector = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(data->philo[i].write_protector, NULL);
 	}
 	gettimeofday(&start_time, NULL);
 	data->start_time = start_time.tv_sec * 1000 + start_time.tv_usec / 1000;
 	return (data);
+}
+
+void	ft_init_list(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->param.nb)
+	{
+		data->philo[i].id = i;
+		data->philo[i].status = IS_ALIVE;
+		if (i != data->param.nb - 1)
+		{
+			data->philo[i].next_philo = &data->philo[i + 1];
+			data->philo[i].right_fork = data->philo[i + 1].left_fork;			
+		}
+		else
+		{
+			data->philo[i].next_philo = &data->philo[0];
+			data->philo[i].right_fork = data->philo[0].left_fork;
+		}
+		data->philo[i].start_time = data->start_time;
+		data->philo[i].param = data->param;
+		i ++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:07:17 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 11:31:09 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 12:56:38 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_data	*ft_init_data(int argc, char **argv)
 	data->philo = malloc(sizeof(t_one_philo *) * (data->param.nb));
 	while (++i < data->param.nb)
 	{
+		data->philo[i].thread = malloc(sizeof(pthread_t));
 		data->philo[i].status_mutex = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(data->philo[i].status_mutex, NULL);
 		data->philo[i].left_fork = malloc(sizeof(pthread_mutex_t));

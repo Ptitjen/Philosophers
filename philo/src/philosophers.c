@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:28:53 by jenny             #+#    #+#             */
-/*   Updated: 2022/05/27 12:18:15 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:01:47 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ int	ft_everyone_has_finished(t_data *data)
 	i = 0;
 	while (i < data->param.nb)
 	{
-		pthread_mutex_lock(data->philo[i].status_mutex);
+		if(data->philo[i].status_mutex)
+			pthread_mutex_lock(data->philo[i].status_mutex);
 		if (data->philo[i].status != HAS_FINISHED)
 		{
-			pthread_mutex_unlock(data->philo[i].status_mutex);
+			if(data->philo[i].status_mutex)
+				pthread_mutex_unlock(data->philo[i].status_mutex);
 			return (0);
 		}
-		pthread_mutex_unlock(data->philo[i].status_mutex);
+		if(data->philo[i].status_mutex)
+			pthread_mutex_unlock(data->philo[i].status_mutex);
 		i ++;
 	}
 	return (1);

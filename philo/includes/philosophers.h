@@ -6,14 +6,12 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:42:19 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 11:32:32 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:48:54 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-//# include <sys/_pthread/_pthread_mutex_t.h>
-//# include <sys/_pthread/_pthread_t.h>
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -78,7 +76,6 @@ long int	ft_get_time(void);
 
 void		*ft_philosopher(void *arg);
 void		*ft_check_is_dead(void *arg);
-int			ft_stop_thread(t_one_philo *philo);
 
 void		ft_has_taken_a_fork(t_one_philo *philo);
 void		ft_is_eating(t_one_philo *philo);

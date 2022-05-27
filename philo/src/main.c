@@ -6,14 +6,11 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:13:55 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 12:57:47 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:48:31 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <pthread.h>
-#include <stdint.h>
-#include <sys/time.h>
 
 int	main(int argc, char **argv)
 {	
@@ -37,7 +34,7 @@ int	main(int argc, char **argv)
 		pthread_detach(data->philo[i].thread);
 		i ++;
 	}
-	checker = malloc(sizeof(pthread_t)); // utile?
+	checker = malloc(sizeof(pthread_t));
 	pthread_create(&checker, NULL, ft_check_is_dead, data);
 	pthread_join(checker, 0);
 	free(data);

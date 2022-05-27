@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 11:07:17 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 13:04:05 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 20:09:50 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ t_data	*ft_init_data(int argc, char **argv)
 	i = -1;
 	data = malloc(sizeof(t_data));
 	ft_init_parameters(data, argc, argv);
-	data->one_is_dead = 0;
+	data->who_is_dead = -1;
 	data->write_protector = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(data->write_protector, NULL);
-	data->philo = malloc(sizeof(t_one_philo *) * (data->param.nb));
+	data->philo = malloc(sizeof(t_one_philo) * (data->param.nb));
 	while (++i < data->param.nb)
-	{
+	{		
 		data->philo[i].thread = malloc(sizeof(pthread_t));
 		data->philo[i].status_mutex = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(data->philo[i].status_mutex, NULL);

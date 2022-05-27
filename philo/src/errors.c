@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:39:36 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/25 22:08:05 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/27 18:39:40 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_arg_error(int argc, char **argv)
 		ft_is_number(argv[i]);
 		if (i != 5)
 			ft_is_empty(argv[i]);
-		if (i != 5 && i != 4 && argv[i][0] == '0' && argv[i][1] == 0)
+		if (i != 4 && argv[i][0] == '0' && argv[i][1] == 0)
 		{
 			ft_putstr_fd("\n    \U0001F6AB  Some parameters cannot be 0", 2);
 			ft_putstr_fd(" \U0001F6AB\n\n", 2);

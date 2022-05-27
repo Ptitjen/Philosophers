@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:13:55 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 14:48:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:52:11 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,11 @@ int	main(int argc, char **argv)
 	{
 		pthread_create(&data->philo[i].thread,
 			NULL, ft_philosopher, &data->philo[i]);
-		i ++;
-	}
-	i = 0;
-	while (i < data->param.nb)
-	{
-		pthread_detach(data->philo[i].thread);
+		usleep(1);
 		i ++;
 	}
 	checker = malloc(sizeof(pthread_t));
 	pthread_create(&checker, NULL, ft_check_is_dead, data);
-	pthread_join(checker, 0);
-	free(data);
+	ft_close(data, checker);	
 	return (0);
 }

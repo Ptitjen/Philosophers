@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:14:25 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 14:22:27 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:58:24 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,36 @@ void	ft_has_taken_a_fork(t_one_philo *philo)
 
 void	ft_is_eating(t_one_philo *philo)
 {
+	pthread_mutex_lock(philo->status_mutex);
 	pthread_mutex_lock(philo->write_protector);
 	printf("%-6ld : %3d \U0001F35D is eating\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
-	pthread_mutex_unlock(philo->write_protector);
-	pthread_mutex_lock(philo->status_mutex);
-	philo->last_meal = ft_get_time();
-	ft_sleep(philo->param.tt_eat);
+	pthread_mutex_unlock(philo->write_protector);	
+	philo->last_meal = ft_get_time();	
 	philo->nb_of_meals ++;
+	philo->status = IS_EATING;
+	pthread_mutex_unlock(philo->status_mutex);
+	ft_sleep(philo->param.tt_eat);
+	pthread_mutex_lock(philo->status_mutex);
 	if (philo->nb_of_meals == philo->param.number_of_meals)
 		philo->status = HAS_FINISHED;
+	else
+		philo->status = IS_ALIVE;
 	pthread_mutex_unlock(philo->status_mutex);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
 
 void	ft_is_sleeping(t_one_philo *philo)
-{		
+{	
+	pthread_mutex_lock(philo->status_mutex);
 	pthread_mutex_lock(philo->write_protector);
 	printf("%-6ld : %3d \U0001F634 is sleeping\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
 	pthread_mutex_unlock(philo->write_protector);
-	pthread_mutex_lock(philo->status_mutex);
-	ft_sleep(philo->param.tt_sleep);
 	pthread_mutex_unlock(philo->status_mutex);
+	ft_sleep(philo->param.tt_sleep);
+	
 }
 
 void	ft_is_thinking(t_one_philo *philo)

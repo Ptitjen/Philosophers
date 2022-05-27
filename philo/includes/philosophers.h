@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:42:19 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/27 14:48:54 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:07:37 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@
 
 # define IS_DEAD 0
 # define IS_ALIVE 1
-# define IS_EATING 2
-# define IS_SLEEPING 3
-# define IS_THINKING 4
-# define IS_OVER_EATING 5
-# define IS_WAITING_ONE_FORK 6
-# define HAS_FINISHED 7
-# define HAS_TO_STOP 8
+# define HAS_FINISHED 2
+# define HAS_TO_STOP 3
+# define IS_EATING 4
 
 typedef struct s_one_philo	t_one_philo;
 
@@ -60,7 +56,7 @@ typedef struct s_data {
 	t_parameters	param;
 	int				*current_philo;
 	t_one_philo		*philo;
-	int				one_is_dead;
+	int				who_is_dead;
 	pthread_mutex_t	*philo_mutex;
 	pthread_mutex_t	*write_protector;
 }	t_data;
@@ -82,6 +78,6 @@ void		ft_is_eating(t_one_philo *philo);
 void		ft_is_sleeping(t_one_philo *philo);
 void		ft_is_thinking(t_one_philo *philo);
 
-void		ft_close(t_data *data);
+void		ft_close(t_data *data, pthread_t checker);
 
 #endif

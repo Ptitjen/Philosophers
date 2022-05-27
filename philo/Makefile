@@ -6,7 +6,7 @@
 #    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/26 17:08:49 by jeulliot          #+#    #+#              #
-#    Updated: 2022/05/27 13:07:49 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/27 19:33:58 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,12 @@ OBJS	= ${SRCS:.c=.o}
 CFLAGS	= -Wall -Wextra -Werror
 
 THREADFLAGS = -pthread -D_REENTRANT 
-
 SANFLAGS = -fsanitize=thread -g
 
 RM	= @rm -f
 
 $(NAME):	${OBJS}			
-			@gcc ${CFLAGS} ${THREADFLAGS} ${SANFLAGS} ${SRCS} -o ${NAME}
+			@gcc ${CFLAGS} ${THREADFLAGS} ${SRCS} -o ${NAME}
 
 all:	$(NAME) ${OBJS} ${INCLUDES}
 

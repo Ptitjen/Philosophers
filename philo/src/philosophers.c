@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:28:53 by jenny             #+#    #+#             */
-/*   Updated: 2022/05/25 22:28:05 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/27 11:39:24 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,25 @@ void	*ft_check_is_dead(void *arg)
 	data = arg;
 	while (!ft_everyone_has_finished(data))
 	{	
+		pthread_mutex_lock(data->philo->status_mutex);
 		if (ft_get_time() - data->philo->last_meal > data->philo->param.tt_die)
 		{
+			
 			data->philo->status = IS_DEAD;
+						
 			pthread_mutex_lock(data->write_protector);
 			printf("%-6ld : %3d \U0001F47B died\n",
 				ft_get_time() - data->philo->start_time, data->philo->id + 1);
 			pthread_mutex_unlock(data->write_protector);
 		}
+		pthread_mutex_unlock(data->philo->status_mutex);
 		if (data->philo->status == IS_DEAD)
 		{
 			while (data->philo->next_philo->status != IS_DEAD)
 			{
+				pthread_mutex_lock(data->philo->status_mutex);			
 				data->philo->next_philo->status = HAS_TO_STOP;
+				pthread_mutex_unlock(data->philo->status_mutex);
 				data->philo = data->philo->next_philo;
 			}
 			return (0);
@@ -59,7 +65,9 @@ int	ft_stop_thread(t_one_philo *philo)
 {
 	if (ft_get_time() - philo->last_meal > philo->param.tt_die)
 	{
+		pthread_mutex_lock(philo->status_mutex);
 		philo->status = IS_DEAD;
+		pthread_mutex_unlock(philo->status_mutex);		
 		return (1);
 	}
 	if (philo->status == HAS_FINISHED)
@@ -78,7 +86,9 @@ void	*ft_philosopher(void *arg)
 	t_one_philo	*philo;
 
 	philo = arg;
+	pthread_mutex_lock(philo->status_mutex);
 	philo->last_meal = ft_get_time();
+	pthread_mutex_unlock(philo->status_mutex);
 	philo->nb_of_meals = 0;
 	while (1)
 	{

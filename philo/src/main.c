@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:13:55 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/25 16:42:13 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/27 11:17:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	main(int argc, char **argv)
 	}
 	pthread_create(&checker, NULL, ft_check_is_dead, data);
 	pthread_join(checker, 0);
-	ft_close(data);
+	free(data);
 	return (0);
 }

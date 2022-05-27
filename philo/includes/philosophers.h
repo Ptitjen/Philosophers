@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 17:42:19 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/25 22:25:14 by jenny            ###   ########.fr       */
+/*   Updated: 2022/05/27 11:32:32 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct s_one_philo {
 	int				nb_of_meals;
 	long int		last_meal;
 	int				status;
+	pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*write_protector;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;

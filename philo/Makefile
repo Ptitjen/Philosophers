@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jenny <jenny@student.42.fr>                +#+  +:+       +#+         #
+#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/26 17:08:49 by jeulliot          #+#    #+#              #
-#    Updated: 2022/05/25 15:51:44 by jenny            ###   ########.fr        #
+#    Updated: 2022/05/27 11:18:32 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SANFLAGS = -fsanitize=thread -g
 RM	= @rm -f
 
 $(NAME):	${OBJS}			
-			@gcc ${CFLAGS} ${THREADFLAGS} ${SRCS} -o ${NAME}
+			@gcc ${CFLAGS} ${THREADFLAGS} ${SANFLAGS} ${SRCS} -o ${NAME}
 
 all:	$(NAME) ${OBJS} ${INCLUDES}
 

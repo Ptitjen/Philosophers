@@ -14,28 +14,24 @@
 
 static int	ft_everyone_has_finished(t_data *data)
 {
-	int i;
-	i = 0;
+	int	i;
 
+	i = 0;
 	while (i < data->param.nb)
 	{			
 		if (data->philo->status_mutex)
 			pthread_mutex_lock(data->philo->status_mutex);
-		if (data->philo->status != HAS_FINISHED)
+		if (data->philo->has_finished == 0)
 		{
 			if (data->philo->status_mutex)
 				pthread_mutex_unlock(data->philo->status_mutex);
 			return (0);
 		}		
 		if (data->philo->status_mutex)
-			pthread_mutex_unlock(data->philo->status_mutex);		
+			pthread_mutex_unlock(data->philo->status_mutex);
 		data->philo = data->philo->next_philo;
 		i ++;
 	}
-	printf("\n\U0001F929 *********************************** \U0001F929 \n");
-	printf("%-6ld : They finished all their meals !\n", \
-			ft_get_time() - data->start_time);
-	printf("\U0001F929 *********************************** \U0001F929 \n\n");
 	return (1);
 }
 
@@ -48,12 +44,6 @@ static int	ft_stop_thread(t_one_philo *philo)
 		pthread_mutex_unlock(philo->status_mutex);
 		return (1);
 	}
-	if (philo->status == HAS_FINISHED)
-	{
-		pthread_detach(philo->thread);
-		pthread_mutex_unlock(philo->status_mutex);
-		return (1);
-	}
 	if (philo->status == HAS_TO_STOP)
 	{
 		pthread_mutex_unlock(philo->status_mutex);
@@ -61,6 +51,21 @@ static int	ft_stop_thread(t_one_philo *philo)
 	}
 	pthread_mutex_unlock(philo->status_mutex);
 	return (0);
+}
+
+static void	ft_stop_everybody(t_data *data)
+{
+	while (data->philo->status != IS_DEAD)
+		data->philo = data->philo->next_philo;
+	data->philo = data->philo->next_philo;
+	while (data->philo->status != IS_DEAD)
+	{
+		pthread_mutex_lock(data->philo->status_mutex);
+		pthread_detach(data->philo->thread);
+		data->philo->status = HAS_TO_STOP;
+		pthread_mutex_unlock(data->philo->status_mutex);
+		data->philo = data->philo->next_philo;
+	}
 }
 
 void	*ft_check_is_dead(void *arg)
@@ -78,15 +83,7 @@ void	*ft_check_is_dead(void *arg)
 				data->philo->status = IS_DEAD;
 				data->who_is_dead = data->philo->id;
 				data->philo = data->philo->next_philo;
-				
-				while (data->philo->status != IS_DEAD)
-				{
-					pthread_mutex_lock(data->philo->status_mutex);
-					pthread_detach(data->philo->thread);
-					data->philo->status = HAS_TO_STOP;
-					pthread_mutex_unlock(data->philo->status_mutex);
-					data->philo = data->philo->next_philo;
-				}
+				ft_stop_everybody(data);
 				pthread_detach(data->philo->thread);
 				pthread_mutex_unlock(data->philo->status_mutex);
 				return (0);

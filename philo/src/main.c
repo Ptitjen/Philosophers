@@ -31,6 +31,6 @@ int	main(int argc, char **argv)
 	}
 	checker = malloc(sizeof(pthread_t));
 	pthread_create(&checker, NULL, ft_check_is_dead, data);
-	ft_close(data, checker);	
+	ft_close(data, checker);
 	return (0);
 }

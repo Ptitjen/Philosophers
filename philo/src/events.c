@@ -44,15 +44,15 @@ void	ft_is_eating(t_one_philo *philo)
 	pthread_mutex_lock(philo->write_protector);
 	printf("%-6ld : %3d \U0001F35D is eating\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
-	pthread_mutex_unlock(philo->write_protector);	
-	philo->last_meal = ft_get_time();	
+	pthread_mutex_unlock(philo->write_protector);
+	philo->last_meal = ft_get_time();
 	philo->nb_of_meals ++;
 	philo->status = IS_EATING;
 	pthread_mutex_unlock(philo->status_mutex);
 	ft_sleep(philo->param.tt_eat);
 	pthread_mutex_lock(philo->status_mutex);
 	if (philo->nb_of_meals == philo->param.number_of_meals)
-		philo->status = HAS_FINISHED;
+		philo->has_finished = 1;
 	else
 		philo->status = IS_ALIVE;
 	pthread_mutex_unlock(philo->status_mutex);
@@ -69,7 +69,6 @@ void	ft_is_sleeping(t_one_philo *philo)
 	pthread_mutex_unlock(philo->write_protector);
 	pthread_mutex_unlock(philo->status_mutex);
 	ft_sleep(philo->param.tt_sleep);
-	
 }
 
 void	ft_is_thinking(t_one_philo *philo)

@@ -46,6 +46,7 @@ t_data	*ft_init_data(int argc, char **argv)
 		pthread_mutex_init(data->philo[i].left_fork, NULL);
 		data->philo[i].write_protector = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(data->philo[i].write_protector, NULL);
+		data->philo[i].has_finished = 0;
 	}
 	gettimeofday(&start_time, NULL);
 	data->start_time = start_time.tv_sec * 1000 + start_time.tv_usec / 1000;

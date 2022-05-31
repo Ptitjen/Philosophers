@@ -22,9 +22,8 @@
 
 # define IS_DEAD 0
 # define IS_ALIVE 1
-# define HAS_FINISHED 2
-# define HAS_TO_STOP 3
-# define IS_EATING 4
+# define HAS_TO_STOP 2
+# define IS_EATING 3
 
 typedef struct s_one_philo	t_one_philo;
 
@@ -43,6 +42,7 @@ struct s_one_philo {
 	int				id;
 	int				nb_of_meals;
 	long int		last_meal;
+	int				has_finished;
 	int				status;
 	pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*write_protector;

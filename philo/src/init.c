@@ -34,18 +34,14 @@ t_data	*ft_init_data(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	ft_init_parameters(data, argc, argv);
 	data->who_is_dead = -1;
-	data->write_protector = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->write_protector, NULL);
 	data->philo = malloc(sizeof(t_one_philo) * (data->param.nb));
 	while (++i < data->param.nb)
 	{		
 		data->philo[i].thread = malloc(sizeof(pthread_t));
-		data->philo[i].status_mutex = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(data->philo[i].status_mutex, NULL);
 		data->philo[i].left_fork = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(data->philo[i].left_fork, NULL);
-		data->philo[i].write_protector = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(data->philo[i].write_protector, NULL);
+		data->philo[i].status_mutex = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(data->philo[i].status_mutex, NULL);
 		data->philo[i].has_finished = 0;
 	}
 	gettimeofday(&start_time, NULL);

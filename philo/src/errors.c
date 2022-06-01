@@ -61,7 +61,7 @@ static int	ft_is_number(char *str)
 		if (str[i] < '0' || str[i] > '9')
 		{
 			ft_putstr_fd("\n    \U0001F6AB  At least one parameter is ", 2);
-			ft_putstr_fd("not a number \U0001F6AB\n\n", 2);
+			ft_putstr_fd("not a correct number \U0001F6AB\n\n", 2);
 			ft_show_required_parameters();
 			exit (1);
 		}

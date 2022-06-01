@@ -61,7 +61,7 @@ static void	ft_stop_everybody(t_data *data)
 	while (data->philo->status != IS_DEAD)
 	{
 		pthread_mutex_lock(data->philo->status_mutex);
-		pthread_detach(data->philo->thread);
+		pthread_detach(*data->philo->thread);
 		data->philo->status = HAS_TO_STOP;
 		pthread_mutex_unlock(data->philo->status_mutex);
 		data->philo = data->philo->next_philo;
@@ -84,7 +84,7 @@ void	*ft_check_is_dead(void *arg)
 				data->who_is_dead = data->philo->id;
 				data->philo = data->philo->next_philo;
 				ft_stop_everybody(data);
-				pthread_detach(data->philo->thread);
+				pthread_detach(*data->philo->thread);
 				pthread_mutex_unlock(data->philo->status_mutex);
 				return (0);
 			}
@@ -102,8 +102,8 @@ void	*ft_philosopher(void *arg)
 	philo = arg;
 	pthread_mutex_lock(philo->status_mutex);
 	philo->last_meal = ft_get_time();
-	pthread_mutex_unlock(philo->status_mutex);
 	philo->nb_of_meals = 0;
+	pthread_mutex_unlock(philo->status_mutex);
 	while (1)
 	{
 		if (ft_stop_thread(philo))

@@ -18,33 +18,31 @@ void	ft_has_taken_a_fork(t_one_philo *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(philo->write_protector);
-		printf("%-6ld : %3d \U0001F944 has taken a fork\n", \
+		pthread_mutex_lock(philo->status_mutex);
+		printf("%-6ld %3d has taken a fork\n", \
 				ft_get_time() - philo->start_time, philo->id + 1);
-		printf("%-6ld : %3d \U0001F374 has taken a fork\n", \
+		printf("%-6ld %3d has taken a fork\n", \
 				ft_get_time() - philo->start_time, philo->id + 1);
-		pthread_mutex_unlock(philo->write_protector);
+		pthread_mutex_unlock(philo->status_mutex);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(philo->write_protector);
-		printf("%-6ld : %3d \U0001F944 has taken a fork\n", \
+		pthread_mutex_lock(philo->status_mutex);
+		printf("%-6ld %3d has taken a fork\n", \
 				ft_get_time() - philo->start_time, philo->id + 1);
-		printf("%-6ld : %3d \U0001F374 has taken a fork\n", \
+		printf("%-6ld %3d has taken a fork\n", \
 				ft_get_time() - philo->start_time, philo->id + 1);
-		pthread_mutex_unlock(philo->write_protector);
+		pthread_mutex_unlock(philo->status_mutex);
 	}
 }
 
 void	ft_is_eating(t_one_philo *philo)
 {
 	pthread_mutex_lock(philo->status_mutex);
-	pthread_mutex_lock(philo->write_protector);
-	printf("%-6ld : %3d \U0001F35D is eating\n", \
+	printf("%-6ld %3d is eating\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
-	pthread_mutex_unlock(philo->write_protector);
 	philo->last_meal = ft_get_time();
 	philo->nb_of_meals ++;
 	philo->status = IS_EATING;
@@ -63,18 +61,16 @@ void	ft_is_eating(t_one_philo *philo)
 void	ft_is_sleeping(t_one_philo *philo)
 {	
 	pthread_mutex_lock(philo->status_mutex);
-	pthread_mutex_lock(philo->write_protector);
-	printf("%-6ld : %3d \U0001F634 is sleeping\n", \
+	printf("%-6ld %3d is sleeping\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
-	pthread_mutex_unlock(philo->write_protector);
 	pthread_mutex_unlock(philo->status_mutex);
 	ft_sleep(philo->param.tt_sleep);
 }
 
 void	ft_is_thinking(t_one_philo *philo)
 {
-	pthread_mutex_lock(philo->write_protector);
-	printf("%-6ld : %3d \U0001F914 is thinking\n", \
+	pthread_mutex_lock(philo->status_mutex);
+	printf("%-6ld %3d is thinking\n", \
 			ft_get_time() - philo->start_time, philo->id + 1);
-	pthread_mutex_unlock(philo->write_protector);
+	pthread_mutex_unlock(philo->status_mutex);
 }

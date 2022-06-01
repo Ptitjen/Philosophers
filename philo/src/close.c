@@ -12,22 +12,25 @@
 
 #include "../includes/philosophers.h"
 
-//TODO : frees and push
-void	ft_close(t_data *data, pthread_t checker)
+static void	ft_stop_threads_and_mutexes(t_data *data)
 {
 	int	i;
 
-	pthread_join(checker, 0);
 	i = 0;
 	while (i < data->param.nb)
 	{
-		pthread_detach(data->philo->thread);
+		pthread_detach(*data->philo->thread);
+		pthread_mutex_destroy(data->philo->status_mutex);
+		pthread_mutex_destroy(data->philo->left_fork);
 		data->philo = data->philo->next_philo;
 		i ++;
 	}
-	usleep(50);
+}
+
+static void	ft_print_end(t_data *data)
+{
 	if (data->who_is_dead != -1)
-		printf("%-6ld : %3d \U0001F47B died\n",
+		printf("%-6ld %3d died\n",
 			ft_get_time() - data->start_time, data->who_is_dead + 1);
 	else
 	{
@@ -36,5 +39,31 @@ void	ft_close(t_data *data, pthread_t checker)
 				ft_get_time() - data->start_time);
 		printf("\U0001F929 *********************************** \U0001F929 \n\n");
 	}
+}
+
+static void	ft_free_philos(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->param.nb)
+	{
+		free(data->philo->status_mutex);
+		free(data->philo->left_fork);
+		free(data->philo->thread);
+		data->philo = data->philo->next_philo;
+		i ++;
+	}
+}
+
+void	ft_close(t_data *data, pthread_t *checker)
+{
+	pthread_join(*checker, 0);
+	free(checker);
+	ft_stop_threads_and_mutexes(data);
+	usleep(50);
+	ft_print_end(data);
+	ft_free_philos(data);
+	free(data->philo);
 	free(data);
 }

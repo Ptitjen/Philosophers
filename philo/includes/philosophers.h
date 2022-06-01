@@ -38,27 +38,23 @@ typedef struct s_parameters {
 struct s_one_philo {
 	long int		start_time;
 	t_parameters	param;
-	pthread_t		thread;
+	pthread_t		*thread;
 	int				id;
 	int				nb_of_meals;
 	long int		last_meal;
 	int				has_finished;
 	int				status;
 	pthread_mutex_t	*status_mutex;
-	pthread_mutex_t	*write_protector;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_one_philo		*next_philo;
 };
 
 typedef struct s_data {
-	long int		start_time;
 	t_parameters	param;
-	int				*current_philo;
 	t_one_philo		*philo;
+	long int		start_time;
 	int				who_is_dead;
-	pthread_mutex_t	*philo_mutex;
-	pthread_mutex_t	*write_protector;
 }	t_data;
 
 int			ft_atoi(const char *str);
@@ -78,6 +74,6 @@ void		ft_is_eating(t_one_philo *philo);
 void		ft_is_sleeping(t_one_philo *philo);
 void		ft_is_thinking(t_one_philo *philo);
 
-void		ft_close(t_data *data, pthread_t checker);
+void		ft_close(t_data *data, pthread_t *checker);
 
 #endif
